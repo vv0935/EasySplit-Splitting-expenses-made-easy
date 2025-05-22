@@ -63,7 +63,7 @@ export function Dashboard() {
                     </div>
                     <h2 className={styles.username}>Hello {userName}!!</h2>
                     <div className={styles.component}>
-                        <div className={styles.Balances}>Balance: {Math.abs(netbalance)}</div>
+                        <div className={styles.Balances}>Balance: {netbalance}</div>
                         <div className={styles.Balances}>You Owe: {Math.abs(netbalance - positivebalance)}</div>
                         <div className={styles.Balances}>You are Owed: {positivebalance}</div>
                     </div>

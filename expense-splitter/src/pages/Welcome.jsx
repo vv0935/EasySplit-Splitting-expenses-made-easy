@@ -3,6 +3,8 @@ import styles from "./Welcome.module.css"; // Adjust the path based on your proj
 
 export default function Welcome() {
     const nav = useNavigate();
+    localStorage.clear("user_id")
+    localStorage.clear("mobile")
 
     return (
         <div className={styles.container}>

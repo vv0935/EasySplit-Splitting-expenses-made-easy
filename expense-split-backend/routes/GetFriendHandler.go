@@ -72,7 +72,7 @@ func GetFriendHandler(o orm.Ormer, request events.APIGatewayProxyRequest) (event
 			if result.Description == "settle" {
 				status = "Paid"
 				share = result.Amount
-				balance += share // Subtract instead of adding
+				balance += share
 			} else {
 				status = "Paid"
 				share = result.Amount / 2
@@ -82,7 +82,7 @@ func GetFriendHandler(o orm.Ormer, request events.APIGatewayProxyRequest) (event
 			if result.Description == "settle" {
 				status = "Owed"
 				share = result.Amount
-				balance -= share // Add instead of subtracting
+				balance -= share
 			} else {
 				status = "Owed"
 				share = result.Amount / 2

@@ -1,129 +1,261 @@
-.friendTransactionsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 80vh;
-    width: 50vw;
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin-top: 30px;
-    max-width: 90%;
-    word-wrap: break-word;
+.page {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: "Manrope", "Noto Sans", sans-serif;
+  display: flex;
+  overflow-x: hidden;
+
+  flex-direction: column;
+}
+  
+  
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2.5rem;
+  border-bottom: 1px solid #e7edf3;
+  background-color: white;
+  align-items: center;
 }
 
-.body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    width: 100vw;
-    text-align: center;
-    background-color: #f4f4f4;
-    overflow-y: auto;
-    padding: 20px;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-  }
-
-  .dashboardHeader {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-    border-radius: 10px;
-  }
-
-.friendHeading {
-    font-size: 2em;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 10px;
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.balanceInfo {
-    font-size: 1.5em;
+.logo {
+  width: 24px;
+  height: 24px;
+  background-color: #0e141b;
+  border-radius: 50%;
+}
+
+
+  
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: white;
+}
+
+.brand {
+  color: #101419;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+
+.link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #101419;
+  text-decoration: none !important;
+}
+
+.link:hover{
+  color: #ff3131;
+}
+
+.navButton {
+  background-color: #adcbea;
+  color: #101419;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  border: none;
+}
+
+.appName {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #0e141b;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.9rem;
+  color: #0e141b;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconButton {
+  background-color: #e7edf3;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+}
+
+.PageTitle{
+  font-size: 2rem; 
+  font-weight: bold;
+  color: #0e141b;
+  padding: 2rem 10rem;
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+  .content {
+    font-size: 2rem; 
     font-weight: bold;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.buttonContainer {
+    color: #0e141b;
+    margin-bottom: 1.5rem;
+    padding: 2rem 10rem;
+  }
+  
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .actions {
     display: flex;
-    justify-content: center;
     gap: 10px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-}
-button {
-    padding: 12px 15px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    background-color: #007bff;
+  }
+  
+  .actions button {
+    background-color: #4f46e5;
     color: white;
-    transition: 0.3s;
-    min-width: 120px; /* Ensures "Dashboard" fits well */
-    text-transform: uppercase;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-.transactionList {
-    width: 100%;
-    max-width: 600px;
-    margin: 10px auto;
-    padding: 10px;
-    background: #f8f9fa;
+    border: none;
+    padding: 8px 14px;
     border-radius: 8px;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.1);
-    overflow-x: hidden;
-}
-
-.transactionItem {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .actions button:hover {
+    background-color: #3730a3;
+  }
+  
+  .balance {
     text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .positive {
+    color: #16a34a;
+  }
+  
+  .negative {
+    color: #dc2626;
+  }
+  
+  .sectionTitle {
+    font-size: 20px;
+    height: 48px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .transactionList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .transactionCard {
+    padding: 12px 16px;
+    margin: 5px;
+    border-radius: 12px;
+    background-color: #f9fafb;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .transactionCard.positive {
+    border-left: 6px solid #16a34a;
+    border-right: 6px solid #16a34a
+  }
+  
+  .transactionCard.negative {
+    border-left: 6px solid #dc2626;
+    border-right: 6px solid #dc2626;
+  }
+  
+  .description {
+    font-size: 16px;
+    font-weight: 500;
+    flex: 2;
+  }
+  
+  .meta {
+    font-size: 14px;
+    color: #6b7280;
+    flex: 1 1 30%;
+  }
+  
+  .amount {
+    font-size: 16px;
     font-weight: bold;
-}
-
-/* Positive & Negative Balance */
-.positiveBalance {
-    background-color: lightgreen;
-}
-
-.negativeBalance {
-    background-color: lightcoral;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .friendTransactionsContainer {
-        width: 90vw;
-        padding: 15px;
-    }
-
-    .friendHeading {
-        font-size: 1.8em;
-    }
-
-    .balanceInfo {
-        font-size: 1.2em;
-    }
-
-    .transactionList {
-        width: 90%;
-    }
-}
+  }
+    
+  .noData {
+    font-size: 16px;
+    color: #6b7280;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .footerButtons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  
+  .footerButtons button {
+    padding: 0.5rem 1.25rem;
+    width: 130px;
+    font-weight: bold;
+    border: none;
+    background-color: #0e141b;
+    color: white;
+    border-radius: 0.75rem;
+    cursor: pointer;
+  }
+  
+  .footerButtons button:hover {
+    background-color: #001253;
+  }
+  
+  .linkout:hover{
+    color: #ff3131;
+  }
+  
+  .linkin:hover{
+    color: #01b87b;
+  }

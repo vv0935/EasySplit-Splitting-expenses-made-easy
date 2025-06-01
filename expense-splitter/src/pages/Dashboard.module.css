@@ -1,213 +1,388 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  font-weight: bold;
-  color: #333;
-  background-color: #242424;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-}
-
-.heading {
-  font-size: 3em;
-  font-weight: 500;
-  text-align: center;
-}
-
-.body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.page {
   min-height: 100vh;
-  width: 100vw;
-  text-align: center;
-  background-color: #f4f4f4;
-  padding: 20px;
-}
-
-.dashboard {
+  background-color: #f8fafc;
+  font-family: "Manrope", "Noto Sans", sans-serif;
   display: flex;
+  overflow-x: hidden;
+
   flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2.5rem;
+  border-bottom: 1px solid #e7edf3;
+  background-color: white;
   align-items: center;
-  min-height: 80vh;
-  width: 50vw;
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2);
-  /* overflow-y: auto;
-  overflow-x: hidden; */
-  /* Prevent horizontal scrolling */
-  margin-top: 30px;
-  max-width: 90%;
-  /* Ensure dashboard does not exceed screen width */
-  word-wrap: break-word;
-  /* Prevent long words from causing overflow */
 }
 
-/* Responsive for smaller screens */
-@media (max-width: 1024px) {
-  .dashboard {
-    width: 70vw;
-  }
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .dashboard {
-    width: 90vw;
-    padding: 15px;
-  }
+.logo {
+  width: 24px;
+  height: 24px;
+  background-color: #0e141b;
+  border-radius: 50%;
 }
 
-.username {
-  display: inline-block;
-  padding: 5px;
-  margin: 10px;
-  font-size: 2em;
+
+  
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: white;
+}
+
+.brand {
+  color: #101419;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.active{
+  /* font-size: 0.875rem;
+  font-weight: 500; */
+  color: #01b87b;
+  text-decoration: none !important;
+}
+
+.link {
+  font-size: 0.875rem;
   font-weight: 500;
+  color: #101419;
+  text-decoration: none !important;
 }
 
-.dashboardHeader {
+.link:hover{
+  color: #ff3131;
+}
+
+.navButton {
+  background-color: #adcbea;
+  color: #101419;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  border: none;
+}
+
+.appName {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #0e141b;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.9rem;
+  color: #0e141b;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconButton {
+  background-color: #e7edf3;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-image: url("https://lh3.googleusercontent.com/a-/AOh14GgkI6-JfAk7U13Q.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.main {
+  padding: 2rem 10rem;
+  flex: 1;
+}
+
+
+.welcomeText {
+    text-align: center;
+    margin-bottom:2rem;
+    font-size: 2.25rem; /* Adjust as needed: 1.25rem = 20px */
+    font-weight: 1000;
+    color: #000000; /* Soft dark gray */
+    font-family: 'Manrope', sans-serif; /* Optional: use a clean font */
+}
+
+.dashboardTitle {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-  border-radius: 10px;
+  justify-content: space-between;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0e141b;
+  margin-bottom: 1.5rem;
 }
 
-.button-container {
+.balanceContainer {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-button {
-  margin: 5px;
-  padding: 12px 15px;
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  background-color: #007bff;
-  color: white;
-  transition: 0.3s;
-  width: 100px;
-  text-transform: uppercase;
-  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+.card {
+  flex: 1;
+  background-color: #e7edf3;
+  padding: 1.5rem;
+  border-radius: 1rem;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-.displayelements {
-  width: 100%;
-  background-color: #007bff;
-  font-size: 1.5em;
-  font-weight: bold;
-  /* margin-bottom: 15px; */
-  color: #333;
-  border: none;
-  padding: 10px;
+.card p {
+  font-weight: 500;
   font-size: 1rem;
-  border-radius: 5px;
+  color: #0e141b;
+  margin-bottom: 0.25rem;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0e141b;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #0e141b;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.friendList {
+  display: block;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  
+}
+
+.friendCard {
+  background-color: #f1f5f9;
+  /* width: 75%; */
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
   cursor: pointer;
-  margin-top: 10px;
-  border-radius: 10px;
-}
-
-/* Balance section */
-.Balances {
-  width: 170px;
-  padding: 5px;
-  margin: 5px;
-  border-radius: 5px;
-  background-color: cornflowerblue;
-  text-align: center;
-}
-
-/* Adjust component layout for responsiveness */
-.component {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
-/* Responsive typography */
-@media (max-width: 768px) {
-  .heading {
-    font-size: 2em;
-  }
-
-  .username {
-    font-size: 1.5em;
-  }
-
-  button {
-    width: 90px;
-    font-size: 12px;
-    padding: 10px;
-  }
-
-  .Balances {
-    width: 140px;
-  }
+.friendCard:hover {
+  background-color: #e2e8f0;
 }
 
-/* Limit transactions width inside dashboard */
-.transactions {
-  width: 100%;
-  max-width: 600px;
-  /* margin: 10px auto; */
-  padding: 10px;
-  background: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.1);
-  overflow-x: hidden;
+.positive {
+  color: #047857; /* emerald-700 */
 }
 
-/* Scrollable transaction list */
-ul {
-  width: 100%;
-  padding: 0;
-  margin-top: 10px;
-  list-style: none;
-  /* max-height: 250px; */
-  /* overflow-y: auto; */
+.negative {
+  color: #b91c1c; /* red-700 */
+}
+
+.noData {
+  font-size: 1rem;
+  color: #64748b;
+}
+
+.footerButtons {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.footerButtons button {
+  padding: 0.5rem 1.25rem;
+  font-weight: bold;
+  border: none;
+  background-color: #0e141b;
+  color: white;
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.footerButtons button:hover {
+  background-color: #001253;
+}
+
+
+.friendCard {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: #f3f4f6;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-bottom: 0.5rem;
 }
 
-/* Responsive Transactions */
-@media (max-width: 768px) {
-  .transactions {
-    width: 90%;
-    max-width: 100%;
-  }
+.cardRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-/* Transaction balance colors */
-.positiveBalance {
-  background-color: lightgreen;
+.amount {
+  font-weight: 600;
+  font-size: 1rem;
 }
 
-.negativeBalance {
-  background-color: lightcoral;
+.settleBtn {
+  background-color: #e2e8f0;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settleBtn:hover {
+  background-color: #cbd5e1;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  stroke: #0e141b;
+}
+
+.friendRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.friendCard {
+  flex-grow: 1;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardRight {
+  display: flex;
+  align-items: center;
+}
+
+.amount {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.settleIconBtn {
+  background-color: #98cafd;
+  border: none;
+  border-radius: 9999px;
+  width: 32px;   /* ↓ smaller size */
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+  
+}
+
+.settleIconBtn:hover {
+  background-color: #ff6565;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+  color: white;
+}
+
+.addExpenseButton {
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.invisibleBtn {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.tooltipWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.invisibleBtn .tooltip {
+  display: none;
+}
+
+.tooltip {
+    visibility: hidden;
+    width: max-content;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position it above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    white-space: nowrap;
+}
+
+.tooltipWrapper:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
 }

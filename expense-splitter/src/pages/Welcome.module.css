@@ -1,52 +1,141 @@
-.container {
+@import url('https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900');
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8fafc; /* slate-50 */
+  font-family: "Manrope", "Noto Sans", sans-serif;
+  overflow-x: hidden;
+
+ 
+
+}
+
+
+.header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 40px;
+    border-bottom: 1px solid #e9edf1;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
-    text-align: center;
-}
-p{
-    font-size: 10rem;
-
-}
-.heading {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.buttonContainer {
+  }
+  
+  
+.logoSection {
     display: flex;
-    gap: 15px;
-}
-
-.button {
-    padding: 12px 24px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .logo {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .brand {
+    color: #101419;
+    font-weight: bold;
+    font-size: 1.125rem;
+  }
+  
+  .navActions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #101419;
+    text-decoration: none !important;
+  }
+  
+  .navButton {
+    background-color: #adcbea;
+    color: #101419;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
     cursor: pointer;
-    transition: 0.3s;
+    font-size: 0.875rem;
+    border: none;
+  }
+
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  padding: 2rem 10rem;
+  /* justify-content: center; */
 }
 
-.button:first-child {
-    background-color: #007bff;
-    color: white;
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 512px;
+  width: 100%;
+  padding: 2rem 0;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.button:first-child:hover {
-    background-color: #0056b3;
+.heading {
+  color: #0e141b;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  padding-bottom: 0.75rem;
 }
 
-.button:last-child {
-    background-color: #28a745;
-    color: white;
+.subheading {
+  color: #0e141b;
+  font-size: 1rem;
+  font-weight: 400;
+  padding-bottom: 1.5rem;
 }
 
-.button:last-child:hover {
-    background-color: #1e7e34;
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.loginButton {
+  background-color: #4296ea;
+  color: #f8fafc;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 48px;
+  width: 400px !important;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  padding: 0 1.25rem;
+}
+
+.loginButton:hover{
+    background-color: #275a8d;
+}
+
+.signupButton {
+    background-color: #e7edf3;
+    color: #0e141b;
+    font-size: 1rem;
+    font-weight: 700;
+    height: 48px;
+    width: 400px !important;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  padding: 0 1.25rem;
+}
+
+.signupButton:hover{
+    background-color: #b7b7b7;
 }

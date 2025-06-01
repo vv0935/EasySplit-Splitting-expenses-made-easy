@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Signinform } from "../components/Signinform";
+import { SignInForm } from "../components/Signinform";
 import { useNavigate } from "react-router-dom";
 
 function Signin() {
@@ -24,7 +24,7 @@ function Signin() {
           <h1>Error: {user.message}</h1>
         )
       ) : (
-        <Signinform onSignin={handleSignin} />
+        <SignInForm onSignin={handleSignin} />
       )}
     </div>
   );

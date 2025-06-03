@@ -278,6 +278,8 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return SettleExpenseHandler(o, request)
 	} else if request.Path == "/easysplit-get_friend_transactions" {
 		return GetFriendHandler(o, request)
+	}else if request.Path == "/easysplit-get-users" {
+		return GetAllUsersHandler(o, request)
 	}
 
 	return events.APIGatewayProxyResponse{

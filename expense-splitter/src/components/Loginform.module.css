@@ -1,4 +1,4 @@
-.loginContainer {
+/* .loginContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,4 +84,156 @@
   display: flex;
 
 
+} */
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  font-family: 'Manrope', 'Noto Sans', sans-serif;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 40px;
+  border-bottom: 1px solid #e9edf1;
+  align-items: center;
+}
+
+.logoArea {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  color: #101419;
+}
+
+.logo {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.logoText {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navButton {
+  background-color: #adcbea;
+  color: #101419;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  border: none;
+}
+
+
+
+.link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #101419;
+  text-decoration: none !important;
+}
+
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #101419;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.input {
+  height: 56px;
+  border-radius: 12px;
+  background: #e9edf1;
+  border: none;
+  padding: 0 16px;
+  font-size: 16px;
+  color: #101419;
+}
+
+.input::placeholder {
+  color: #57738e;
+}
+
+.forgotPassword {
+  font-size: 14px;
+  color: #57738e;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.button {
+  height: 48px;
+  border:none;
+  border-radius: 9999px;
+  background: #adcbea;
+  color: #101419;
+  font-weight: bold;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.button:hover{
+  background-color: #5688ba;
+}
+
+.signupLink {
+  font-size: 14px;
+  color: #57738e;
+  margin-top: 10px;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.orSeparator {
+  text-align: center;
+  font-size: 16px;
+  color: rgb(135, 135, 135);
+  margin: 8px 0;
+  font-weight: 500;
+  padding: 0;
+}
+
+
+.inputError {
+  border: 2px solid red !important;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 0.85rem;
+  margin: 8px 0;
+  text-align: left;
+}
+
+

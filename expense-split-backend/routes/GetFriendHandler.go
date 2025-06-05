@@ -18,7 +18,8 @@ type TransactionResponse struct {
 }
 
 func GetFriendHandler(o orm.Ormer, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	allowedOrigin := "http://easysplit.com:8080"
+	// allowedOrigin := "http://easysplit.com:8080"
+	allowedOrigin := "http://localhost:8081/"
 
 	FriendID := request.QueryStringParameters["friend_id"]
 	UserID := request.QueryStringParameters["user_id"]
@@ -119,4 +120,98 @@ func GetFriendHandler(o orm.Ormer, request events.APIGatewayProxyRequest) (event
 		},
 		Body: string(responseBody),
 	}, nil
+}
+
+
+
+
+
+
+
+
+
+
+func GetFriendHandlerLocal(w http.ResponseWriter, r *http.Request, o orm.Ormer) {
+	allowedOrigin := "http://localhost:8081"
+
+	friendID := r.URL.Query().Get("friend_id")
+	userID := r.URL.Query().Get("user_id")
+
+	if friendID == "" || userID == "" {
+		log.Println("friend_id or user_id is empty")
+		http.Error(w, `{"message": "friend id or user id is empty"}`, http.StatusBadRequest)
+		return
+	}
+
+	var results []models.Global_transactions
+	query := `SELECT * FROM Global_transactions WHERE (PayerID=? AND PayeeID=?) OR (PayerID=? AND PayeeID=?) ORDER BY ID DESC`
+	numRows, err := o.Raw(query, userID, friendID, friendID, userID).QueryRows(&results)
+	if numRows == 0 {
+		log.Println("No transactions were made")
+	}
+
+	var friendName string
+	errr := o.Raw(`SELECT name FROM userauth WHERE user_id=?`, friendID).QueryRow(&friendName)
+	if errr != nil {
+		log.Println("Error fetching friend's name:", errr)
+		friendName = "Unknown"
+	}
+
+	if err != nil {
+		log.Println("Database query error:", err)
+		http.Error(w, `{"message": "Check your credentials"}`, http.StatusInternalServerError)
+		return
+	}
+
+	var balance float64
+	var responseTransactions []TransactionResponse
+
+	for _, result := range results {
+		var status string
+		var share float64
+		if result.PayerID == userID {
+			if result.Description == "settle" {
+				status = "Paid"
+				share = result.Amount
+				balance += share
+			} else {
+				status = "Paid"
+				share = result.Amount / 2
+				balance += share
+			}
+		} else {
+			if result.Description == "settle" {
+				status = "Owed"
+				share = result.Amount
+				balance -= share
+			} else {
+				status = "Owed"
+				share = result.Amount / 2
+				balance -= share
+			}
+		}
+		responseTransactions = append(responseTransactions, TransactionResponse{
+			Description: result.Description,
+			Amount:      result.Amount,
+			Status:      status,
+			Share:       share,
+		})
+	}
+
+	responseBody, _ := json.Marshal(map[string]interface{}{
+		"code":        200,
+		"message":     "Dashboard data retrieved successfully",
+		"User_ID":     userID,
+		"Friend_ID":   friendID,
+		"Friend_Name": friendName,
+		"data":        responseTransactions,
+		"Balance":     balance,
+	})
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseBody)
 }

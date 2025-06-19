@@ -4,9 +4,14 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	// "net/url"
 
 	"github.com/astaxie/beego/orm"
 	"github.com/aws/aws-lambda-go/events"
+
+	"strings" // NEW: For parsing Bearer token
+	"github.com/golang-jwt/jwt/v4" // NEW: For JWT parsing (make sure this is in your go.mod)
+	"errors" // NEW: For returning errors
 )
 
 // DashboardResponse struct to hold outstanding transactions
@@ -16,9 +21,64 @@ type DashboardResponse struct {
 	NetBalance float64 `json:"netbalance" orm:"column(netbalance)"`
 }
 
+// NEW: Helper to validate JWT token
+func validateJWT(tokenString string) (jwt.MapClaims, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Ensure the token method conforms to expected signing method
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("unexpected signing method")
+		}
+		return jwtSecret, nil
+	})
+
+	if err != nil || !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, errors.New("invalid token claims")
+	}
+
+	return claims, nil
+}
+
 // GetDashboardHandler retrieves the dashboard data for a user
 func GetDashboardHandler(o orm.Ormer, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	allowedOrigin := "http://easysplit.com:8080"
+	// allowedOrigin := "http://easysplit.com:8080".
+	allowedOrigin := "http://localhost:8081"
+	log.Println(request)
+
+	// NEW: Extract token from Authorization header
+	authHeader := request.Headers["Authorization"]
+	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+		return events.APIGatewayProxyResponse{
+			StatusCode: 401,
+			Headers: map[string]string{
+				"Access-Control-Allow-Origin":  allowedOrigin,
+				"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+				"Access-Control-Allow-Headers": "Content-Type, Authorization",
+			},
+			Body: `{"message": "Missing or invalid Authorization header"}`,
+		}, nil
+	}
+
+	//understand this working of function in detail
+	// NEW: Get token string and validate
+	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+	_, err := validateJWT(tokenString)
+	if err != nil {
+		log.Println("JWT validation failed:", err)
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusUnauthorized,
+			Headers: map[string]string{
+				"Access-Control-Allow-Origin":  allowedOrigin,
+				"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+				"Access-Control-Allow-Headers": "Content-Type, Authorization",
+			},
+			Body: `{"message": "Invalid or expired token"}`,
+		}, nil
+	}
 
 	userID := request.QueryStringParameters["user_id"]
 	Mobile := request.QueryStringParameters["mobile"]
@@ -86,7 +146,7 @@ func GetDashboardHandler(o orm.Ormer, request events.APIGatewayProxyRequest) (ev
     GROUP BY g.friend_id, u.name;
     `
 
-	_, err := o.Raw(query, userID, userID).QueryRows(&results)
+	_, err = o.Raw(query, userID, userID).QueryRows(&results)
 	if err != nil {
 		log.Println("Database query error:", err)
 		return events.APIGatewayProxyResponse{StatusCode: http.StatusInternalServerError,
@@ -136,4 +196,141 @@ func GetDashboardHandler(o orm.Ormer, request events.APIGatewayProxyRequest) (ev
 		},
 		Body: string(responseBody),
 	}, nil
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+func GetDashboardHandlerLocal(w http.ResponseWriter, r *http.Request, o orm.Ormer) {
+	allowedOrigin := "http://localhost:8081"
+
+	if r.Method == "OPTIONS" {
+		w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+		// ✅ NEW: Extract token from Authorization header using standard net/http
+		authHeader := r.Header.Get("Authorization")
+		if authHeader == "" || len(authHeader) < 8 || authHeader[:7] != "Bearer " {
+			w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+			http.Error(w, "Unauthorized - missing or invalid token format", http.StatusUnauthorized)
+			return
+		}
+		
+		tokenString := authHeader[7:]
+	
+		claims, err := validateJWT(tokenString) // ✅ Use your JWT validation logic
+		if err != nil {
+			log.Println("JWT validation failed:", err)
+			w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+			http.Error(w, "Unauthorized - invalid token", http.StatusUnauthorized)
+			return
+		}
+
+		// ✅ Proceed if token valid
+		log.Println("Authenticated user claims:", claims)
+
+	userID := r.URL.Query().Get("user_id")
+	mobile := r.URL.Query().Get("mobile")
+
+	if userID == "" && mobile != "" {
+		var foundUserID string
+		err := o.Raw("SELECT user_id FROM userauth WHERE mobile = ?", mobile).QueryRow(&foundUserID)
+		if err != nil {
+			log.Println("Error fetching user_id:", err)
+			http.Error(w, `{"message": "Invalid mobile number. User not found."}`, http.StatusBadRequest)
+			return
+		}
+		userID = foundUserID
+	}
+
+	if userID == "" {
+		http.Error(w, `{"message": "User ID is required"}`, http.StatusBadRequest)
+		return
+	}
+
+	var results []DashboardResponse
+
+	query := `
+    WITH balances AS (
+        SELECT 
+            PayeeID AS friend_id,
+            SUM(CASE 
+                	WHEN description = 'settle' THEN Amount 
+                	ELSE Amount / 2 
+            	END) AS amount
+        FROM Global_transactions
+        WHERE PayerID = ? AND PayerID != PayeeID
+        GROUP BY PayeeID
+        
+        UNION ALL
+        
+        SELECT 
+            PayerID AS friend_id,
+            SUM(CASE 
+                	WHEN description = 'settle' THEN -Amount 
+                	ELSE -Amount / 2 
+            	END) AS amount
+        FROM Global_transactions
+		WHERE PayeeID = ? AND PayerID != PayeeID
+        GROUP BY PayerID
+    )
+    SELECT 
+        g.friend_id,
+        u.name,
+        COALESCE(SUM(g.amount), 0) AS netbalance
+    FROM balances g
+    LEFT JOIN userauth u ON g.friend_id = u.user_id
+    GROUP BY g.friend_id, u.name;
+    `
+
+	_, err = o.Raw(query, userID, userID).QueryRows(&results)
+	if err != nil {
+		log.Println("Database query error:", err)
+		http.Error(w, `{"message": "Failed to fetch dashboard data"}`, http.StatusInternalServerError)
+		return
+	}
+
+	var totalbalance, Owedbalance float64
+	for _, trs := range results {
+		totalbalance += trs.NetBalance
+		if trs.NetBalance > 0 {
+			Owedbalance += trs.NetBalance
+		}
+	}
+
+	var userName string
+	errr := o.Raw(`SELECT name FROM userauth WHERE user_id=?`, userID).QueryRow(&userName)
+	if errr != nil {
+		log.Println("Error fetching user's name:", errr)
+		userName = "Unknown"
+	}
+
+	responseBody, _ := json.Marshal(map[string]interface{}{
+		"code":            200,
+		"message":         "Dashboard data retrieved successfully",
+		"data":            results,
+		"userName":        userName,
+		"Balance":         totalbalance,
+		"PositiveBalance": Owedbalance,
+	})
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseBody)
 }

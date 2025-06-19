@@ -7,6 +7,7 @@ import { Dashboard } from "./src/pages/Dashboard";
 import { Addexpense } from "./src/pages/Addexpense";
 import { Settleexpense } from "./src/pages/Settleexpense";
 import { FriendTransactions } from "./src/pages/FriendTransactions";
+import {Notification} from "./src/pages/Notifications"
 
 const App = ()=>{
     return (
@@ -19,6 +20,7 @@ const App = ()=>{
                 <Route path="/addexpense" element={<Addexpense/>} />
                 <Route path="/settleexpense" element={<Settleexpense/>} />
                 <Route path="/friend-transactions" element={<FriendTransactions />} /> 
+                <Route path="/notification" element={<Notification />} /> 
             </Routes>
         </Router>
     )
